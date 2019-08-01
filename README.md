@@ -1,36 +1,30 @@
 # ForgeRock SaaS Software Engineer Coding Challenge
+## How to Run
+exec: `$> ./run-challenge.sh`  
+The project is api driven so, curl or make a request to **localhost at port 3000**.
+After executing the *run-challenge.sh* there will be more instructions for interacting with the app.
 
-## Project Background
+### testing
+- **unit tests**  
+exec: `$> go test`  
 
-We have recently decided that all new projects will be done in Typescript for front-end work and Golang for back-end and utility work.  We obviously understand that not every solution will fit into those two buckets, but any outliers will be addressed on a case-by-case basis.  This coding challenge is meant to be non-trivial example of a problem we recently worked on originally in nodejs and then in golang.
+- **benchmark**  
+exec: `$> go test -bench .`
 
-Often times we will have tasks that need to be executed (some in parallel and some in sequential order -- in our case allocating cloud resources).  These tasks could take a few seconds or a few minutes and may or may not fail in various ways.
+### API
+GET, POST or DELETE at `/user/:username`
 
-## The Challenge
+### prereqs
+- go `1.12.6`
+- docker `18.09.2`
 
-We are asking that you write a simple worker pattern type project using a modern language. We prefer golang but if you are more comfortable in another language, we are also polyglot and will accept a language you are most proficient with.  These workers can be stubs (i.e. they can just sleep for random periods of time -- bonus points for doing an actual task) but they should feed back into the system in some way -- i.e. tracking and reporting.  We suggest using redis for both the pub/sub worker interactions as well as datastore -- but the technology choice is yours as long as we can build it and it fits a similar pattern.
+*coded on a darwin/amd64 box*
 
-This challenge is not meant to be a production ready version, but it is meant to show thought process, concepts, and problem solving skills.  You are free to use any 3rd party libraries or code to accomplish the task as long as it is LICENSED accordingly.
+## Thoughts
+There is much more we could do in the way of logging and error handling. App/redis
+configuration and packaging leaves something to be desired (*but perhaps we
+could discuss methods of operationalization*). Durability is not here, what happens
+if I lose connection to redis? How do I know that I consumed published content?
 
-We recommend that you spend only 1-2 hours (and certainly not more than 3) on the challenge, we are not looking for a finished/polished solution, but rather an example of how you approach a problem, and a starter for a conversation about a technical topic and the development process.
-
-## Requirements / Concepts
-
-Some concepts we would like to see (either in code or at least outlined in the README):
-
-- Build instructions (any 3rd party requirements and how to generally get them setup on either linux or mac) -- docker-compose or something similar is suggested
-- Usage instructions (i.e. samples to actually show how it works)
-- Unit tests
-- Integration tests
-- Are there any shortcomings of the code?
-- How might this project be scaled?
-- How might one approach doing sequential versus parallel tasks?
-
-## Completion Format
-
-- [ ] To do this challenge, please Fork this repository to your own public github repository.
-- [ ] Build all the things, and have fun!
-- [ ] Check your code into the fork when you are complete.
-- [ ] :shipit:  Send the recruiter at ForgeRock the link to your repository.  
-
-We will review what you did during one of your interview sessions!
+This code could easily be broken apart to by operations interacting with redis.
+Publishing and subscription methods could be handled by different programs/applications.
